@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {Post} from "../../shared/types";
 import {Title, Figure, Content, Meta} from "./PostBodyStyle";
+import {Breadcrumbs} from "../Breadcrumbs/Breadcrumbs";
 
 type PostBodyProps = {
     post: Post
@@ -10,6 +11,7 @@ export const PostBody = ({post}: PostBodyProps) => {
     return (
         <>
             <Title> {post.title} </Title>
+            <Breadcrumbs post={post}/>
             <Figure>
                 <img src={post.image} alt={post.title}/>
             </Figure>

@@ -1,39 +1,35 @@
 import { useRouter } from "next/router";
-import { Post as PostType } from "../../shared/types";
-import { postPaths as paths } from "../../shared/staticPaths";
-import {GetStaticProps} from "next";
+import {Comment, Post as PostType} from "../../shared/types";
+import { GetServerSideProps } from "next";
 import { fetchPost } from "../../api/post";
+import { fetchComments } from "../../api/comment";
 import Loading from "../../components/Loading/Loading";
 import {PostBody} from "../../components/Post/PostBody";
+import {Comments} from "../../components/Comments";
 
 type PostProps  = {
-    post: PostType
+    post: PostType,
+    comments: Comment[]
 }
 
-// membuat SSG dengan export function getStaticProps
-export const getStaticProps: GetStaticProps<PostProps> = async ({
-    params
-}) => {
-    //jika id bukan bertipe string, maka tampilkan error "unexpected id"
-    if(typeof params.id !== "string") throw new Error("Unexpected id");
-
-    // simpan data post by id dengan melakukan fetch spesifik berdasarkan id
-    const post = await fetchPost(params.id)
-
-    // mengembalikan nilai sebuah post
-    return { props: { post } }
-};
-
-export async function getStaticPaths() {
-    return { paths, fallback: true }
+export const getServerSideProps: GetServerSideProps<PostProps> = async ({ params }) => {
+    if(typeof params.id !== "string") throw new Error("Unexpected Id")
+    const post = await fetchPost(params.id);
+    const comments = await fetchComments(params.id);
+    return { props: { post, comments } }
 }
 
-const Post = ({ post }: PostProps) => {
+const Post = ({ post, comments }: PostProps) => {
   const router = useRouter();
 
   if(router.isFallback) return <Loading/>
 
-   return <PostBody post={post}/>
+   return (
+       <>
+        <PostBody post={post}/>
+        <Comments post={post.id} comments={comments}/>
+       </>
+   )
 }
 
 export default Post

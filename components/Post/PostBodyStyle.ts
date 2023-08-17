@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Title = styled.h2`
   font-size: 2.8rem;
   line-height: 1.2;
-  margin: 10px 0 20px;
+  margin: 50px 0 20px;
 
   @media (max-width: 800px) {
     font-size: 1.8rem;

@@ -29,6 +29,10 @@ export const Title = styled.h2`
   line-height: 1.1;
   margin: 10px 0 15px;
   
+  :nth-child(1) {
+    margin: 60px 0 15px;
+  }
+  
   @media (max-width: 800px) {
     font-size: 2rem;
   }
