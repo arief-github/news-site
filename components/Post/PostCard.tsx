@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Card, Figure, Title, Excerpt } from "./PostCardStyle";
 import {Post} from "../../shared/types";
 
@@ -11,7 +12,17 @@ export const PostCard = ({post}: PostCardProps) => {
         <Link href={`/post/${post.id}`} passHref>
             <Card>
                 <Figure>
-                    <img alt={post.title} src={post.image}/>
+                    <Image
+                        alt={post.title}
+                        src={post.image}
+                        loading="lazy"
+                        layout="responsive"
+                        objectFit="cover"
+                        objectPosition="center"
+                        width={320}
+                        height={180}
+                        sizes="(min-width: 1000px) 320px, 100vw"
+                    />
                 </Figure>
                 <Title>
                     {post.title}
