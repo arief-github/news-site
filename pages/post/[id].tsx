@@ -1,35 +1,50 @@
-import { useRouter } from "next/router";
-import {Comment, Post as PostType} from "../../shared/types";
-import { GetServerSideProps } from "next";
-import { fetchPost } from "../../api/post";
-import { fetchComments } from "../../api/comment";
+import {useSelector} from "react-redux";
+import {NextPage} from "next";
+import {fetchPost} from "../../api/post";
+import {fetchComments} from "../../api/comment";
 import Loading from "../../components/Loading/Loading";
 import {PostBody} from "../../components/Post/PostBody";
 import {Comments} from "../../components/Comments";
 
-type PostProps  = {
-    post: PostType,
-    comments: Comment[]
-}
+import {
+    PostState,
+    UPDATE_POST_ACTION
+} from "../../store/post";
 
-export const getServerSideProps: GetServerSideProps<PostProps> = async ({ params }) => {
-    if(typeof params.id !== "string") throw new Error("Unexpected Id")
-    const post = await fetchPost(params.id);
-    const comments = await fetchComments(params.id);
-    return { props: { post, comments } }
-}
+import {
+    CommentState,
+    UPDATE_COMMENTS_ACTION
+} from "../../store/comments";
+import {State, store} from "../../store";
 
-const Post = ({ post, comments }: PostProps) => {
-  const router = useRouter();
+export const getServerSideProps = store.getServerSideProps(
+    (store) => async ({params}) => {
+        if (typeof params.id !== "string") {
+            throw new Error("Unexpected Id")
+        }
 
-  if(router.isFallback) return <Loading/>
+        const comments = await fetchComments(params.id);
+        const post = await fetchPost(params.id);
 
-   return (
-       <>
-        <PostBody post={post}/>
-        <Comments post={post.id} comments={comments}/>
-       </>
-   )
+        store.dispatch({type: UPDATE_POST_ACTION, post});
+        store.dispatch({type: UPDATE_COMMENTS_ACTION, comments});
+
+        return null
+    }
+)
+
+const Post: NextPage = () => {
+    const post = useSelector<State, PostState>(({post}) => post)
+    const comments = useSelector<State, CommentState>(({comments}) => comments)
+
+    if(!post) return <Loading/>
+
+    return (
+        <>
+            <PostBody post={post}/>
+            <Comments post={post.id} comments={comments}/>
+        </>
+    )
 }
 
 export default Post

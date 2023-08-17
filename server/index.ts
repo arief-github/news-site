@@ -56,7 +56,7 @@ app.post("/posts/:id/comments", (req, res) => {
         time: "Less than minute ago"
     });
 
-    return res.sendStatus(201);
+    return res.json(comments.filter(({ post }) => post === postId))
 });
 
 app.listen(port, () => console.log(`Server is running on http://localhost:${port}!`));
