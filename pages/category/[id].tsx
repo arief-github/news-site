@@ -4,7 +4,6 @@ import {Post} from "../../shared/types";
 import { fetchCategory } from "../../request";
 import {Section} from "../../components/Section";
 import Loading from "../../components/Loading/Loading";
-import {categoryPaths as paths} from "../../shared/staticPaths";
 
 type CategoryProps = {
     posts: Post[]
