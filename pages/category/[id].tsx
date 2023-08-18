@@ -15,10 +15,6 @@ export const getServerSideProps: GetServerSideProps<CategoryProps> = async ({ pa
     return {props: {posts}}
 }
 
-export async function getStaticPaths() {
-    return {paths, fallback: true}
-}
-
 const Category = ({posts}: CategoryProps) => {
     const router = useRouter();
 
