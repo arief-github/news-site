@@ -32,7 +32,7 @@ export const GlobalStyle = createGlobalStyle<MainThemeProps>`
     }
     
     a {
-      color: ${(theme) => theme.colors?.blue};
+      color: ${({theme}) => theme.colors?.blue};
     }
     
     a:hover {
