@@ -1,7 +1,6 @@
 import {useSelector} from "react-redux";
 import {NextPage} from "next";
-import {fetchPost} from "../../api/post";
-import {fetchComments} from "../../api/comment";
+import { fetchPost, fetchComments } from "../../request";
 import Loading from "../../components/Loading/Loading";
 import {PostBody} from "../../components/Post/PostBody";
 import {Comments} from "../../components/Comments";
