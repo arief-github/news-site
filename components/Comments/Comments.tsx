@@ -1,5 +1,5 @@
 import { Comment as CommentType, EntityId } from "../../shared/types";
-import { Comment } from "../Comment/Comment";
+import { Comment } from "../Comment";
 import { Container, List, Item } from "./style";
 import { CommentForm } from "../CommentForm/CommentForm";
 
